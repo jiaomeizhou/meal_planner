@@ -105,5 +105,3 @@ Day 5: Recipe with cereals, goose, beans
 # Limitations
 
 - Only one way to input the food items for the user
-- can't make recommendations based on personal preference, how to do that?
-- 
