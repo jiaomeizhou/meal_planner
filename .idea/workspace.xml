@@ -5,15 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d761d571-e541-44d0-96e1-3d14496182f2" name="Changes" comment="commit change">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/graph_1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/graph_2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/graph_3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/graph_4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/img_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/img_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/img_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/img_3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/meal_planner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/meal_planner.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +14,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -76,6 +66,7 @@
       <workItem from="1682496230176" duration="207000" />
       <workItem from="1682496450449" duration="37000" />
       <workItem from="1682496511274" duration="139000" />
+      <workItem from="1682496660618" duration="267000" />
     </task>
     <task id="LOCAL-00001" summary="commit change">
       <created>1682288886961</created>
@@ -98,7 +89,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682495916060</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="commit change">
+      <created>1682496687089</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682496687089</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

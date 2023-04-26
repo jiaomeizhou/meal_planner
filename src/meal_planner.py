@@ -10,8 +10,8 @@ from datetime import datetime
 The program takes a CSV file as an input, reads the data, sort the food items by remaining validity period, 
 tell the user one item best before n days, creates a conflict graph, assigns colors to recipes by graph coloring 
 algorithm, and recommends recipes based on food item expiration date.
-The program calculate the cumulative remaining validity period of the food items in the recipe, 
-the shorter the time, the higher the recommended order.
+The program calculate the minimum remaining validity period of a food item in the recipe, 
+the shorter the period, the higher the recommended order.
 '''
 
 
