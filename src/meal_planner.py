@@ -1,3 +1,6 @@
+import random
+from copy import deepcopy
+
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -41,13 +44,25 @@ def main(file_path=None):
         meats = list(meats_dict.keys())
         vegetables = list(vegetables_dict.keys())
 
+        # let the length of three lists are the same
+        min_len = min(len(starches), len(meats), len(vegetables))
+        starches = starches[:min_len]
+        meats = meats[:min_len]
+        vegetables = vegetables[:min_len]
+
+        # shuffle the lists randomly
+        random.shuffle(starches)
+        random.shuffle(meats)
+        random.shuffle(vegetables)
+
         food_items = starches + meats + vegetables
 
     # 2. Create the conflict graph. Compute the chromatic number, which is the total number of meals
 
     G = nx.Graph()
     G.add_nodes_from(food_items)
-    # nx.draw_shell(G, with_labels=True, font_weight='bold')  # draw the nodes
+    nx.draw_shell(G, with_labels=True, font_weight='bold')  # draw the nodes
+    plt.show()
 
     # Add conflict edges
     for food1 in food_items:
@@ -58,7 +73,8 @@ def main(file_path=None):
                 G.add_edge(food1, food2)
 
     # Draw the first graph: CONFLICT GRAPH, two vertices are connected if they cannot be part of the same meal
-    # nx.draw_shell(G, with_labels=True, font_weight='bold')
+    nx.draw_shell(G, with_labels=True, font_weight='bold')
+    plt.show()
 
     chromatic_num = nx.algorithms.coloring.greedy_color(G)
 
@@ -83,7 +99,8 @@ def main(file_path=None):
                 color_list.append(colors[i])
 
     # Draw the second graph: the nodes will be colored
-    # nx.draw_shell(G, with_labels=True, font_weight='bold', node_color=color_list)
+    nx.draw_shell(G, with_labels=True, font_weight='bold', node_color=color_list)
+    plt.show()
 
     # update the graph, add edges for the nodes with the same color, i.e. can be a meal
     G.clear()
@@ -108,39 +125,49 @@ def main(file_path=None):
         if len(recipes.get(i)) != 3:
             recipes.popitem()
 
-    # sort the meals by the food items' expired date, here we use the sum of each food item's valid day in a recipe
+    # sort the meals by the food items' expired date, here we use the minimum food item's valid day in a recipe
+    # if the minimum expired date in two recipes are the same, then order them by the original order when construct the graph
     recipe_dict = {}
-    total_days = 0
-    # food_dict_temp = copy.deepcopy(food_dict)
+    min_days = 0
     for i in range(len(recipes)):
         recipe = recipes[i]
-        for food in recipe:
-            if len(recipe) == 3:
-                days = food_dict[food]
-                total_days = total_days + days
-            else:
-                recipes.popitem(recipe)  # if the foods in a recipe less than 3 items, the recipe will be deleted
-        recipe_dict[' '.join(recipe)] = total_days
-        total_days = 0
+        min_days = min(food_dict[recipe[0]], food_dict[recipe[1]], food_dict[recipe[2]])
+        recipe_dict[' '.join(recipe)] = min_days
 
     recipe_dict = dict(sorted(recipe_dict.items(), key=lambda item: item[1]))  # sort the dict by key
 
     # 4. Output the meal plan
     print("\n############# Meal recommendation based on expired date ##############\n")
-    print('\n'.join('Day {}: Recipe with {}'.format(*k) for k in enumerate(recipe_dict.keys())))
+    output = [f"Day {index}: Recipe with {key} will expire in {value} days" for index, (key, value) in
+              enumerate(recipe_dict.items())]
+    output.append(f"Recipe with {list(recipe_dict.keys())} will expire in {list(recipe_dict.values())} days")
+    print('\n'.join(output[:-1]))
 
     # 5. Other feature: define user preferences by their keyboard input, eat their favorite food first
-    starch = list(input("Enter your favorite starch in the fridge: "))
-    meat = list(input("Enter your favorite meat in the fridge: "))
-    vegetable = list(input("Enter your favorite vegetable in the fridge: "))
-    user_prefs = starch + meat + vegetable
+
+    starch = input("Enter your favorite starch in the fridge: ")
+    meat = input("Enter your favorite meat in the fridge: ")
+    vegetable = input("Enter your favorite vegetable in the fridge: ")
+    input_str = starch + ' ' + meat + ' ' + vegetable
+    user_prefs = input_str.split(' ')
+    # user_prefs = ['bread', 'duck', 'beans']
 
     print("\n########### Meal recommendation based on your preferences ##############\n")
-    for color, recipe in recipes.items():
-        if set(recipe).intersection(user_prefs):
-            print('Day {}: Recipe with {}'.format(color, ', '.join(recipe)))
-        else:
-            print('Day {}: Recipe with {}'.format(color, ', '.join(recipe)))
+    recipe_dict_temp = deepcopy(recipe_dict)
+    i = 0
+    for recipe, days in recipe_dict.items():
+        if common_member(recipe.split(' '), user_prefs):
+            print('Day {}: Recipe with {} will expire in {} days'.format(i, recipe, recipe_dict[recipe]))
+            i += 1
+            recipe_dict_temp.pop(recipe)
+
+    output = [f"Day {index+i}: Recipe with {key} will expire in {value} days" for index, (key, value) in
+              enumerate(recipe_dict_temp.items())]
+    output.append(
+        f"Recipe with {list(recipe_dict_temp.keys())} will expire in {list(recipe_dict_temp.values())} days")
+    print('\n'.join(output[:-1]))
+
+
 
 
 # A helper function to calculate the valid day of each food item
@@ -159,6 +186,14 @@ def update_valid_days(my_dict):
         my_dict[starch] = valid_days(date)
 
 
+def common_member(a, b):
+    a_set = set(a)
+    b_set = set(b)
+    if (a_set & b_set):
+        return True
+    else:
+        return False
+
+
 #  Run the program
-if __name__ == "__main__":
-    main("food_items.csv")
+main("food_items.csv")
